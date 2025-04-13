@@ -3,3 +3,8 @@ venv
 vnev/
 .env/
 .env
+__pycache__
+app-logs/
+Course-Recommender-System/
+Course_Recommender_System.egg-info
+Course_Recommender_System.egg-info/
