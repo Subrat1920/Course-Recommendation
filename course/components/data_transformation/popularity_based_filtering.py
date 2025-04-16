@@ -69,6 +69,7 @@ class PopularityFiltering:
                 logging.info(f'Columns of the data found to be {df.columns.tolist()}')
                 logging.info('Applying popularity filtering')
                 popularity_df = self.popularity_based_filtering(df)
+                logging.info(f'Columns of the popularity data found to be {popularity_df.columns.tolist()}')
                 logging.info('Applied popularity filtering')
                 logging.info('Loading that dataframe into the db')
                 load_to_db(popularity_df, self.popularity_based_filtering_db_name, self.popular_table_name)
