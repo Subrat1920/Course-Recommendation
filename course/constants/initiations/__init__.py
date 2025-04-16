@@ -22,16 +22,17 @@ DATA_VALIDATION_FILE_NAME:str='validation_report.txt'
 '''
 DATA TRANSFORMATION
 '''
-DATA_TRANSFORMATION:str='data_transformation'
+DATA_TRANSFORMATION_FILE_NAME:str='data_transformation'
 
 '''
 DATA TRANFORMATION : POPULARITY BASED RECOMMENDATION
 '''
 POPULARITY_BASED_FILTERING_FILE_NAME:str='popularity_based_filtering'
 POPULARITY_BASED_FILTERING_DB_NAME:str='popular_courses.db'
+POPULARITY_BASED_FILETERING_TABLE_NAME:str='popular_course_table'
 THRESHOLD_DATABASE:str='threshold_data.db'
-THRESHOLD_VALUE:float=0.8
-POPULARITY_COLUMNS:list=['course_name', 'instructor', 'course_duration_hours', 'certification_offered', 'difficulty_level', 'course_price', 'study_material_available', 'course_images', 'instructor_images', 'average_rating']
+THRESHOLD_VALUE:float=0.80
+POPULARITY_COLUMNS_UI:list=['course_name', 'instructor', 'course_duration_hours', 'certification_offered', 'difficulty_level', 'course_price', 'study_material_available', 'course_images', 'instructor_images', 'average_rating']
 
 '''
 DATA TRANSFORMATION : MODEL BASED RECOMMENDATION

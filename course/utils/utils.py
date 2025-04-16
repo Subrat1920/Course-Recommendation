@@ -36,15 +36,13 @@ def load_to_db(dataframe, db_path, table_name):
         logging.error('Error happended in load_to_db --> utils')
         logging.warning(error_message_details(e, sys))
         raise RecommenderException(e, sys)
-
-
-def read_csv_file(csv_file_path):
+    
+def read_db(db_path, table_name):
     try:
-        df = pd.read_csv(csv_file_path)
-        logging.info(f'The dataframe has {df.shape} shape')
-        logging.info(f'Columns extracted ==> {df.columns}')
-        return df
+        with sqlite3.connect(db_path) as conn:
+            df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
+            return df
     except Exception as e:
-        logging.error('Error happended in read_csv_file --> utils')
+        logging.error('Error happended in read_db --> utils')
         logging.warning(error_message_details(e, sys))
         raise RecommenderException(e, sys)
