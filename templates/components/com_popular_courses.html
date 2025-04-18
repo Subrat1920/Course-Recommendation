@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Popular Courses | EduSelect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
+      width: 100%;
+      transition: transform 0.3s ease; /* Smooth zoom effect on image */
+    }
+
+    .card-footer img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease;
+      background-color: #ffffff; /* Default background */
+    }
+
+    .card-hover:hover {
+      transform: translateY(-10px); /* Enhanced lift effect */
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      background-color: #f8f9fa; /* Light background change on hover */
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-link:hover {
+      text-decoration: none;
+    }
+
+    .card-body:hover .card-title {
+      color: #0d6efd; /* Change text color on hover */
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #343a40;
+      transition: color 0.3s ease; /* Smooth color transition */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container mt-4">
+    <h2 class="mb-4 text-center" style="font-weight: 600; font-size: 2rem; color: #343a40; border-bottom: 2px solid #0d6efd; display: inline-block; padding-bottom: 8px;">
+        Popular Courses
+    </h2>
+      
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+      {% for course in courses %}
+      <div class="col">
+        <a href="{{ url_for('course_detail') }}?name={{ course.course_name | urlencode }}&instructor={{ course.instructor | urlencode }}" class="card-link">
+          <div class="card h-100 shadow-sm card-hover">
+            <img src="{{ course.course_images }}" class="card-img-top" alt="Course Image">
+
+            <div class="card-body">
+              <h5 class="card-title">{{ course.course_name }}</h5>
+              <p class="card-text">
+                <strong>Instructor:</strong> {{ course.instructor }}<br>
+                <strong>Duration:</strong> {{ course.course_duration_hours }} hours<br>
+                <strong>Difficulty:</strong> {{ course.difficulty_level }}<br>
+                <strong>Certification:</strong> {{ course.certification_offered }}<br>
+                <strong>Price:</strong> ₹{{ course.course_price }}<br>
+                <strong>Study Material:</strong> {{ course.study_material_available }}<br>
+                <strong>Rating:</strong> ⭐ {{ course.average_rating | round(2) }}
+              </p>
+            </div>
+
+            <div class="card-footer d-flex align-items-center">
+              <img src="{{ course.instructor_images }}" alt="Instructor Image">
+              <small class="text-muted">{{ course.instructor }}</small>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+</body>
+</html>

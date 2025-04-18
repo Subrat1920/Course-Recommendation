@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduSelect</title> 
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" type="image/png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: #f1f3f5;
+    }
+
+    /* Perfectly Aligned Navbar */
+    .navbar {
+      min-height: 70px;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      padding: 0.25rem 0;
+    }
+
+    .navbar-brand i {
+      margin-right: 12px;
+      font-size: 1.4rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      height: 100vh;
+      position: fixed;
+      width: 250px;
+      background: rgba(33, 37, 41, 0.95);
+      backdrop-filter: blur(6px);
+      padding-top: 30px;
+      box-shadow: 3px 0 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar a {
+      color: #f8f9fa;
+      padding: 14px 25px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      text-decoration: none;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .sidebar a i {
+      margin-right: 12px;
+    }
+
+    .sidebar a:hover {
+      background: rgba(13, 202, 240, 0.2);
+      border-left: 4px solid #0dcaf0;
+      color: #0dcaf0;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+      background-color: #f8f9fa;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 30px 20px;
+      }
+
+      .navbar {
+        min-height: 60px;
+        padding: 0.5rem 1rem;
+      }
+      
+      .navbar-brand {
+        font-size: 1.25rem;
+      }
+      
+      .navbar-brand i {
+        font-size: 1.2rem;
+        margin-right: 8px;
+      }
+    }
+
+    /* Button style */
+    .btn-gradient {
+      background: linear-gradient(to right, #0dcaf0, #0b8ed6);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: 0.3s ease-in-out;
+    }
+
+    .btn-gradient:hover {
+      background: linear-gradient(to right, #0b8ed6, #0dcaf0);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Headings and spacing */
+    h1, h2, h3 {
+      color: #212529;
+    }
+
+    .card-style {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Perfectly Padded Navbar -->
+  <nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand" href="{{url_for('index')}}">
+        <i class="fas fa-graduation-cap"></i>
+        <span>EduSelect</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">  
+    <a href="{{url_for('index')}}"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('recommend_popular_courses') }}"><i class="fas fa-fire"></i> Popular Courses</a>
+    <a href="{{ url_for('show_top_educators') }}"><i class="fas fa-chalkboard-teacher"></i> Top Educator Picks</a>
+    <a href="{{ url_for('show_top_rated_courses') }}"><i class="fas fa-star"></i> Top Rated Courses</a>
+    <a href="{{ url_for('show_frequently_bought_courses') }}"><i class="fas fa-shopping-cart"></i> Frequently Bought</a>
+    <a href="{{ url_for('show_help') }}"><i class="fas fa-life-ring"></i> Help</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    {% block content %}
+      
+    {% endblock %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
