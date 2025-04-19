@@ -12,6 +12,9 @@ class DataIngestionConfig:
 
 class DataTransformationConfig:
     def __init__(self):
+        '''
+        POPULARITY BASED FILTERING ARTIFACTS
+        '''
         self.artifact = ARTIFACT_DIR_NAME
         self.data_transformation_file_name = os.path.join(self.artifact, DATA_TRANSFORMATION_FILE_NAME)
         self.popularity_based_filtering_file_name = os.path.join(self.data_transformation_file_name, POPULARITY_BASED_FILTERING_FILE_NAME)
@@ -19,4 +22,12 @@ class DataTransformationConfig:
         self.popularity_columns_ui:list = POPULARITY_COLUMNS_UI
         self.threshold_value:float = THRESHOLD_VALUE
         self.popular_table_name:str = POPULARITY_BASED_FILETERING_TABLE_NAME
+
+        '''
+        THRESHOLD FILTERED DATA
+        '''
+        self.data_transformation_file_name:str=os.path.join(self.artifact, DATA_TRANSFORMATION_FILE_NAME)   ## transformation file name
+        self.threshold_data_file_name:str = os.path.join(self.data_transformation_file_name, THRESHOLD_DATA_FILE_NAME)  ## threshold file name
+        self.threshold_database_name: str = os.path.join(self.threshold_data_file_name, THRESHOLD_DATABASE)   ## database name
+        self.threshold_table_name:str = THRESHOLD_TABLE_NAME  ## table name
 

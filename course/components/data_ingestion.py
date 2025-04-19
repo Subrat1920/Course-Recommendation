@@ -36,8 +36,9 @@ class DataIngestion:
             except Exception as e:
                 logging.error(error_message_details(e, sys))
                 raise RecommenderException(error_message_details(e, sys))
-            logging.info('DATA INGESTION COMPLETED\n\n')
+            logging.info('DATA INGESTION COMPLETED')
             logging.info("="*50)
+            logging.info('\n\n')
         except Exception as e:
             logging.error(error_message_details(e, sys))
             raise RecommenderException(error_message_details(e, sys))

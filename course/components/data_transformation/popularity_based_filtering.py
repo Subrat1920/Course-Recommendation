@@ -5,7 +5,7 @@ import pandas as pd
 
 from course.constants.entity.config_entity import DataIngestionConfig, DataTransformationConfig
 from course.utils.utils import read_db, load_to_db
-from course.constants.initiations import THRESHOLD_DATABASE
+
 
 class PopularityFiltering:
     def __init__(self):
@@ -18,6 +18,8 @@ class PopularityFiltering:
         self.popular_table_name:str = transformation_config.popular_table_name
         self.threshold_value:float = transformation_config.threshold_value
 
+
+        ## Ingested Artifacts
         ingestion_config = DataIngestionConfig()
         self.data_ingestion_file_name:str = ingestion_config.data_ingestion_file_name
         self.data_ingestion_db_name:str = ingestion_config.data_ingestion_db
@@ -77,8 +79,9 @@ class PopularityFiltering:
             except Exception as e:
                 logging.error(error_message_details(e, sys))
                 raise RecommenderException(e, sys)
-            logging.info('DATA INGESTION COMPLETED\n\n')
+            logging.info('POPULARITY DATA TRANSFORMATION COMPLETED')
             logging.info("="*50)
+            logging.info('\n\n')
         except Exception as e:
             logging.error(error_message_details(e,sys))
             raise RecommenderException(e, sys)

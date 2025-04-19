@@ -46,3 +46,5 @@ def read_db(db_path, table_name):
         logging.error('Error happended in read_db --> utils')
         logging.warning(error_message_details(e, sys))
         raise RecommenderException(e, sys)
+
+

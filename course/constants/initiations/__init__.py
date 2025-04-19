@@ -30,11 +30,19 @@ DATA TRANFORMATION : POPULARITY BASED RECOMMENDATION
 POPULARITY_BASED_FILTERING_FILE_NAME:str='popularity_based_filtering'
 POPULARITY_BASED_FILTERING_DB_NAME:str='popular_courses.db'
 POPULARITY_BASED_FILETERING_TABLE_NAME:str='popular_course_table'
-THRESHOLD_DATABASE:str='threshold_data.db'
 THRESHOLD_VALUE:float=0.80
 POPULARITY_COLUMNS_UI:list=['course_name', 'instructor', 'course_duration_hours', 'certification_offered', 'difficulty_level', 'course_price', 'study_material_available', 'course_images', 'instructor_images', 'average_rating']
+
+
+'''
+DATA TRANSFORMATION : THRESHOLD VALUE (FOR MAKING THE RENDER FASTER)
+'''
+THRESHOLD_DATA_FILE_NAME:str='threshold_filtered_data'
+THRESHOLD_DATABASE:str='threshold_data.db'
+THRESHOLD_TABLE_NAME:str='threshold_data_table'
 
 '''
 DATA TRANSFORMATION : MODEL BASED RECOMMENDATION
 '''
+
 

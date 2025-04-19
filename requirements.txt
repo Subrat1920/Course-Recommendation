@@ -3,4 +3,5 @@ pandas
 scikit-learn
 flask
 dotenv
+flask-caching
 #-e .
