@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Top Educators | Learning Platform</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
   <style>
     body {
@@ -101,8 +93,8 @@
           <div class="card-body">
             <h5 class="card-title">{{ instructor.instructor }}</h5>
             <p class="card-text">
-              <strong>Rating:</strong> {% if instructor.rating %}{{ "%.1f"|format(instructor.rating) }}{% else %}N/A{% endif %}<br>
-              <strong>Feedback:</strong> {% if instructor.feedback_score %}{{ "%.1f"|format(instructor.feedback_score) }}{% else %}N/A{% endif %}
+              <strong>Rating:</strong> {% if instructor.rating %}{{ "%.2f"|format(instructor.rating) }}{% else %}N/A{% endif %}<br>
+              <strong>Feedback:</strong> {% if instructor.feedback_score %}{{ "%.2f"|format(instructor.feedback_score) }}{% else %}N/A{% endif %}
             </p>
           </div>
 
@@ -125,5 +117,3 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

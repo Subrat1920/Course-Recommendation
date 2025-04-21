@@ -37,7 +37,6 @@ def recommend_popular_courses():
         logging.error(error_message_details(e, sys))
         raise RecommenderException(e, sys)
 
-
 @app.route('/top_educators', methods=['POST','GET'])
 def show_top_educators():
     try:
@@ -59,13 +58,19 @@ def show_top_educators():
     except Exception as e:
         logging.error(f"Error in show_top_educators: {str(e)}")
 
-@app.route('/top_rated_courses', methods=['POST','GET'])
-def show_top_rated_courses():
-    return render_template('top_rated_courses.html')
 
 @app.route('/frequently_bought_courses', methods=['POST','GET'])
 def show_frequently_bought_courses():
-    return render_template('frequently_bought.html')
+    try:
+        data_transformation_config = DataTransformationConfig()
+        thrreshold_db_name = data_transformation_config.threshold_database_name
+        threshold_table_name = data_transformation_config.threshold_table_name
+        df = read_db(thrreshold_db_name, threshold_table_name)
+        frequently_brought_courses = df.groupby(['course_name', 'course_images'])['enrollment_numbers'].max().sort_values(ascending=False).reset_index().head(15)
+        return render_template('frequently_bought.html', courses=frequently_brought_courses.to_dict(orient='records'))
+    except Exception as e:
+        raise RecommenderException(e, sys)
+    
 
 @app.route('/help_desk', methods=['POST','GET'])
 def show_help():
@@ -79,44 +84,37 @@ def course_detail():
     # For now, just render a placeholder page
     return f"<h1>Details for {course_name} by {instructor} will be shown here.</h1>"
 
+@app.route('/contact')
+def contact():
+    return render_template('contacts.html')
+
 
 @app.route('/instructor/courses')
 def view_courses_by_instructor():
     instructor_name = request.args.get('instructor_name', '')
     instructor_name = unquote(instructor_name)
-
-    # Load data from DB
     data_transformation_config = DataTransformationConfig()
     threshold_df = read_db(
         data_transformation_config.threshold_database_name,
         data_transformation_config.threshold_table_name
     )
-
-    # Filter for instructor
     instructor_courses = threshold_df[threshold_df['instructor'] == instructor_name]
-
-    # Drop duplicate course names to avoid redundancy
     unique_courses = instructor_courses.drop_duplicates(subset=['course_name'])
-
-    # Calculate top-rated courses based on mean rating
     top_courses = (
         unique_courses
         .groupby(['course_name','course_images','course_duration_hours', 'certification_offered', 'difficulty_level', 'rating', 'enrollment_numbers', 'course_price','study_material_available'], as_index=False)['rating']
         .mean()
         .sort_values(by='rating', ascending=False).head(15)
     )
-
-    # Convert to dictionary list for rendering
     courses = top_courses.to_dict(orient='records')
-
     return render_template(
         'courses_by_instructor.html',
         instructor_name=instructor_name,
         courses=courses
     )
 
+
 if __name__=='__main__':
     app.run(debug=True)
 
 
-['course_duration_hours', 'certification_offered', 'difficulty_level', 'rating', 'enrollment_numbers', 'course_price','study_material_available']
