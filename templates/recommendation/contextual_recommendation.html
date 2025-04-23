@@ -1,34 +1,21 @@
-
+<div class="container my-5">
     <h2 class="mb-4">You may also like</h2>
+    
+    {% for i in range(0, 6, 3) %}
     <div class="row">
-        {% for rec in recommendations[:3] %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow">
+        {% for rec in recommendations[i:i+3] %}
+        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="card shadow w-100">
                 <img src="{{ rec.course_images }}" class="card-img-top" alt="Course Image" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ rec.course_name }}</h5>
-                    <p class="card-text"><strong>Instructor:</strong> {{ rec.instructor }}</p>
-                    <p class="card-text"><strong>Rating:</strong> {{ rec.rating }}</p>
-                    <a href="{{ url_for('course_detail', name=rec.course_name, instructor=rec.instructor) }}" class="btn btn-primary">View Course</a>
+                    <p class="card-text mb-1"><strong>Instructor:</strong> {{ rec.instructor }}</p>
+                    <p class="card-text mb-3"><strong>Rating:</strong> {{ rec.rating }}</p>
+                    <a href="{{ url_for('course_detail', name=rec.course_name, instructor=rec.instructor) }}" class="btn btn-primary mt-auto">View Course</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-
-    <div class="row">
-        {% for rec in recommendations[3:6] %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow">
-                <img src="{{ rec.course_images }}" class="card-img-top" alt="Course Image" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ rec.course_name }}</h5>
-                    <p class="card-text"><strong>Instructor:</strong> {{ rec.instructor }}</p>
-                    <p class="card-text"><strong>Rating:</strong> {{ rec.rating }}</p>
-                    <a href="{{ url_for('course_detail', name=rec.course_name, instructor=rec.instructor) }}" class="btn btn-primary">View Course</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
 </div>
