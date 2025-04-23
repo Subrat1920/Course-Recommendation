@@ -110,8 +110,8 @@ def course_detail():
             instructor_name=instructor_name,
             top_n=6
         )
-        print(f'Course Name: {course_name}\nInstructor Name : {instructor_name}')
-        print(recommends[['course_name', 'instructor']])
+        # print(f'Course Name: {course_name}\nInstructor Name : {instructor_name}')
+        # print(recommends[['course_name', 'instructor']])
 
         # Get main course data
         df = threshold_df.loc[
