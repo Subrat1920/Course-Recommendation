@@ -4,4 +4,6 @@ scikit-learn
 flask
 dotenv
 flask-caching
-#-e .
+tensorflow
+keras
+-e .

@@ -42,7 +42,35 @@ THRESHOLD_DATABASE:str='threshold_data.db'
 THRESHOLD_TABLE_NAME:str='threshold_data_table'
 
 '''
-DATA TRANSFORMATION : MODEL BASED RECOMMENDATION
+MODEL TRAINER : DEEP LEARNING 
 '''
+MODEL_TRAINER_FILE_NAME:str='model_trainer'
+MODEL_CONTAINER_FILE_NAME:str='model_containers'
+SUPPORTING_DATABASES_FILE_NAME:str='supporting_databases'
 
+### CONTENTS OF MODEL_CONTAINER_FILE_NAME
+## FILE FOR SAVING DIFFERENT MODELS
+MODEL_ENCODERS_FILE_NAME:str='encoder_container'
+MODEL_SCALER_FILE_NAME:str='scalers_container'
+FINAL_MODEL_FILE_NAME:str='final_model_container'
 
+## ENCODERS REQUIRED
+COURSE_ENCODER:str='course_le.pkl'
+INSTRUCTOR_ENCODER:str='instructor_le.pkl'
+DIFFICULTY_LEVEL_ENCODER:str='difficulty_le.pkl'
+
+## SCALER REQUIRED
+NUMERICAL_SCALER:str='min_max_scaler.pkl'
+
+## FINAL DEEP-LEARNING MODEL_NAME:
+DEEP_LEARNING_MODEL_NAME:str='final_model.h5'
+
+### CONTENT OF SUPPORTING_DATABASE_FILE_NAME
+TRAINED_DATABASE_NAME:str='training_df.db'
+
+## embedding layer
+COURSE_EMBEDDING_CONTAINER_NAME:str='embeddings'
+COURSE_EMBEDDING_FILE_NAME:str='course_embeddings.npy'
+
+## NUMERICAL COLUMN FOR THE MODEL TRAINING
+NUM_COL_FOR_TRAINING: list = ['course_duration_hours', 'rating', 'feedback_score', 'course_price', 'enrollment_numbers', 'time_spent_hours','previous_courses_taken']
