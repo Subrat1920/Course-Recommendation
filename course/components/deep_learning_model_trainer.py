@@ -1,13 +1,17 @@
-import pandas as pd
+import os
+import logging
+import warnings
+import sys
+import sqlite3
 import numpy as np
-import os, sys, sqlite3
+import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Embedding, Dense, Concatenate, Flatten, Dropout
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from joblib import dump
 
-from course.utils.utils import read_db
+from course.utils.utils import read_db, load_to_db
 from course.logger.logging import logging
 from course.exception.exception import RecommenderException, error_message_details
 from course.constants.initiations import NUM_COL_FOR_TRAINING
@@ -39,6 +43,10 @@ class DeepLearningTrainer:
 
         # Numerical Columns
         self.num_cols: list = NUM_COL_FOR_TRAINING
+
+        ## trained dataframe
+        self.training_database_path: str = model_trainer_artifact.training_database_path
+        self.training_database_table_name: str = 'training_db_table'
 
     def model_training(self, dataframe, num_cols):
         try:
@@ -99,7 +107,7 @@ class DeepLearningTrainer:
                 dataframe[num_cols]
             ], verbose=0)
 
-            return course_embeddings, model, course_le, instructor_le, difficulty_le, scaler
+            return course_embeddings, model, course_le, instructor_le, difficulty_le, scaler, dataframe
 
         except Exception as e:
             logging.error(error_message_details(e, sys))
@@ -111,12 +119,16 @@ class DeepLearningTrainer:
             logging.info("MODEL TRAINING INITIATED")
             logging.info("-" * 50)
 
+            # Ensure the directory for the training database exists
+            if not os.path.exists(os.path.dirname(self.training_database_path)):
+                os.makedirs(os.path.dirname(self.training_database_path))
+            
             # Read threshold-filtered DB
             dataframe = read_db(self.threshold_database_name, self.threshold_database_table)
             num_cols = self.num_cols
 
             # Train model
-            course_embeddings, model, course_le, instructor_le, difficulty_le, scaler = self.model_training(dataframe, num_cols)
+            course_embeddings, model, course_le, instructor_le, difficulty_le, scaler, dataframe = self.model_training(dataframe, num_cols)
 
             # Save model
             model.save(self.final_dl_path)
@@ -147,6 +159,9 @@ class DeepLearningTrainer:
             # Save scaler
             dump(scaler, self.scaler_path)
 
+            # Save the trained dataframe to the DB
+            load_to_db(dataframe, self.training_database_path, self.training_database_table_name)
+
             logging.info("MODEL TRAINING COMPLETED AND ARTIFACTS SAVED")
             logging.info("=" * 50)
             logging.info('\n\n')
@@ -154,5 +169,3 @@ class DeepLearningTrainer:
         except Exception as e:
             logging.error(error_message_details(e, sys))
             raise RecommenderException(e, sys)
-
-

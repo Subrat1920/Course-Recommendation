@@ -1,16 +1,19 @@
 from flask import Flask, render_template, url_for, request
 import os, sys, sqlite3
 from urllib.parse import unquote
+import joblib
+import numpy as np
 
 ## loading util contents
-from course.utils.utils import read_db
+from course.utils.utils import read_db, get_recommendations
 
 ## loading the artifacts
-from course.constants.entity.config_entity import DataTransformationConfig
+from course.constants.entity.config_entity import DataTransformationConfig, ModelTrainerConfig
 
 ## supporters
 from course.exception.exception import RecommenderException, error_message_details
 from course.logger.front_end_logger import logging
+
 
 app = Flask(__name__)
 
@@ -76,37 +79,67 @@ def show_help():
 
 @app.route('/course_detail', methods=['GET'])
 def course_detail():
-    course_name = request.args.get('name')
-    instructor_name = request.args.get('instructor')
-    
-    # Load the threshold dataframe
-    data_transformation_config = DataTransformationConfig()
-    threshold_db_name = data_transformation_config.threshold_database_name
-    threshold_table_name = data_transformation_config.threshold_table_name
-    threshold_df = read_db(threshold_db_name, threshold_table_name)
-    
-    # Filter the dataframe correctly
-    df = threshold_df.loc[
-        (threshold_df['course_name'] == course_name) & 
-        (threshold_df['instructor'] == instructor_name)
-    ].drop_duplicates(subset=['course_name', 'instructor'])
+    try:
+        # Extract parameters first
+        course_name = request.args.get('name')
+        instructor_name = request.args.get('instructor')
 
-    if df.empty:
-        return "Course not found", 404
+        # Load configs
+        model_trainer_config = ModelTrainerConfig()
+        trained_database_path = model_trainer_config.training_database_path
+        trained_dataframe_table_name = 'training_db_table'
 
-    # Extract course details from the first (and only) row
-    course_data = df.iloc[0]
+        # Load trained DataFrame
+        trained_dataframe = read_db(trained_database_path, trained_dataframe_table_name)
+
+        # Load embeddings
+        course_embeddings = np.load(model_trainer_config.embedding_layer_path)  # Example
+
+        # Load threshold/original DataFrame
+        data_transformation_config = DataTransformationConfig()
+        threshold_db_name = data_transformation_config.threshold_database_name
+        threshold_table_name = data_transformation_config.threshold_table_name
+        threshold_df = read_db(threshold_db_name, threshold_table_name)
+
+        # Get recommendations
+        recommends = get_recommendations(
+            original_dataframe=threshold_df,
+            trained_dataframe=trained_dataframe,
+            course_embeddings=course_embeddings,
+            course_name=course_name,
+            instructor_name=instructor_name,
+            top_n=6
+        )
+        print(f'Course Name: {course_name}\nInstructor Name : {instructor_name}')
+        print(recommends[['course_name', 'instructor']])
+
+        # Get main course data
+        df = threshold_df.loc[
+            (threshold_df['course_name'] == course_name) &
+            (threshold_df['instructor'] == instructor_name)
+        ].drop_duplicates(subset=['course_name', 'instructor'])
+
+        if df.empty:
+            return "Course not found", 404
+
+        course_data = df.iloc[0]
+
+        return render_template(
+            'course_details_with_recommendation.html',
+            course_name=course_data['course_name'],
+            instructor_name=course_data['instructor'],
+            course_image=course_data['course_images'],
+            instructor_image=course_data['instructor_images'],
+            rating=course_data['rating'],
+            enrollment_numbers=course_data['enrollment_numbers'],
+            course_duration=course_data['course_duration_hours'],
+            recommendations=recommends.to_dict('records')  # Pass to template
+        )
     
-    return render_template(
-        'course_details_with_recommendation.html',
-        course_name=course_data['course_name'],
-        instructor_name=course_data['instructor'],
-        course_image=course_data['course_images'],
-        instructor_image=course_data['instructor_images'],
-        rating=course_data['rating'],
-        enrollment_numbers=course_data['enrollment_numbers'],
-        course_duration=course_data['course_duration_hours']
-    )
+    except Exception as e:
+        logging.error(f"Error in course_detail: {str(e)}")
+        raise RecommenderException(e, sys)
+
 
 
 
