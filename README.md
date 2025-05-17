@@ -14,6 +14,10 @@ This system delivers intelligent course suggestions based on:
 
 ---
 
+📝 Read the Full Story on Medium
+Want the behind-the-scenes look at how this project was built?
+👉 [Read the full blog here on Medium](https://medium.com/@3subratmishra1sep/course-recommendation-system-using-deep-learning-and-flask-a-full-data-science-project-8f9e8189eff8)
+
 ## 🚀 Features
 
 - **Popularity-Based Filtering**: Displays trending and highly enrolled courses.
@@ -78,4 +82,6 @@ Subrat Mishra
 
 📄 License
 This project is licensed under the MIT License.
+
+
 
