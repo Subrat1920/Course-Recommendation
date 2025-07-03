@@ -14,6 +14,11 @@ from course.constants.entity.config_entity import DataTransformationConfig, Mode
 from course.exception.exception import RecommenderException, error_message_details
 from course.logger.front_end_logger import logging
 
+import main
+
+from main import initialize_pipeline 
+initialize_pipeline() 
+
 
 app = Flask(__name__)
 

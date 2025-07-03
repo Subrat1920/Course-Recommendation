@@ -4,5 +4,7 @@ scikit-learn
 flask
 dotenv
 flask-caching
+tensorflow
 keras
+termcolor
 -e .
