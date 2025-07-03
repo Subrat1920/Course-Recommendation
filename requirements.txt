@@ -7,4 +7,5 @@ flask-caching
 tensorflow
 keras
 termcolor
+gunicorn
 -e .
