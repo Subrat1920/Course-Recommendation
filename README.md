@@ -1,10 +1,10 @@
 # 📚 Course Recommendation System
 
 A comprehensive **Course Recommendation System** built using **Deep Learning**, featuring a complete pipeline for:
-- 🔹 **Data Ingestion**
-- 🔹 **Data Transformation**
-- 🔹 **Model Training**
-- 🔹 **Flask-based Web Deployment**
+-  **Data Ingestion**
+-  **Data Transformation**
+-  **Model Training**
+-  **Flask-based Web Deployment**
 
 This system delivers intelligent course suggestions based on:
 - 📊 **Popularity Filtering**
